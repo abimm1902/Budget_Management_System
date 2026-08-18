@@ -44,4 +44,17 @@ export class DepartmentService {
     data.updatedAt = new Date().toISOString();
     return this.repository.update(id, data);
   }
+   async delete(id: string) {
+  const department = await this.repository.findById(id);
+
+  if (!department) {
+    throw new NotFoundException('department not found');
+  }
+
+  await this.repository.delete(id);
+
+  return {
+    message: 'department deleted successfully',
+  };
+}
 }

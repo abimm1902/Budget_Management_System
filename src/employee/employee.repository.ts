@@ -18,19 +18,31 @@ export class EmployeeRepository {
     return result.rows;
   }
 
-  
   async findById(id: string): Promise<Employee | null> {
-    try {
-      return (await this.db.collection('employees').get(id)).content;
-    } catch {
-      return null;
-    }
+  try {
+    const result = await this.db
+      .collection('employees')
+      .get(id);
+    return result.content;
+  } catch (error) {
+    console.error('Find employee error:', error);
+    return null;
   }
-
-
+}
 
   async update(id: string, data: Employee) {
     await this.db.collection('employees').replace(id, data);
     return data;
   }
+
+async delete(id: string) {
+  try{
+  await this.db
+    .collection('employees')
+    .remove(id);
+  }catch (error) {
+    console.error('Delete repo error:', error);
+    throw error;
+  }
+}
 }

@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsOptional, Min } from 'class-validator';
+import { IsBoolean, IsNumber, IsString, IsOptional, Min, IsNotEmpty } from 'class-validator';
 
 export class UpdateBudgetDto {
   @IsOptional()
@@ -9,4 +9,8 @@ export class UpdateBudgetDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+   @IsString()
+    @IsNotEmpty()
+    createdBy!: string;
 }

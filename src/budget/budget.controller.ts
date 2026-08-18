@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Delete, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { BudgetService } from './budget.service';
 import { CreateBudgetDto } from './dto/create-budget.dto';
 import { UpdateBudgetDto } from './dto/update-budget.dto';
@@ -29,5 +29,9 @@ export class BudgetController {
   @Put(':id')
   update(@Param('id') id: string, @Body() dto: UpdateBudgetDto) {
     return this.service.update(id, dto);
+  }
+  @Delete(':id')
+    async delete(@Param('id') id: string) {
+    return this.service.delete(id);
   }
 }

@@ -39,6 +39,18 @@ export class CategoryService {
     data.updatedAt = new Date().toISOString();
     return this.repository.update(id, data);
   }
+  async delete(id: string) {
+  const category = await this.repository.findById(id);
 
+  if (!category) {
+    throw new NotFoundException('category not found');
+  }
+
+  await this.repository.delete(id);
+
+  return {
+    message: 'category deleted successfully',
+  };
+}
 
 }

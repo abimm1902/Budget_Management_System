@@ -37,4 +37,8 @@ export class BudgetRepository {
     await this.db.collection('budgets').replace(id, data);
     return data;
   }
+
+  async delete(id: string) {
+  await this.db.collection('budgets').remove(id);
+ }
 }

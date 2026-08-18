@@ -45,4 +45,11 @@ export class DepartmentRepository {
     await this.db.collection('departments').replace(id, data);
     return data;
   }
+
+  async delete(id: string) {
+  await this.db
+    .collection('employees')
+    .remove(id);
+ 
+}
 }

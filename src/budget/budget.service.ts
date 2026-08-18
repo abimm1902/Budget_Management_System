@@ -61,6 +61,12 @@ export class BudgetService {
   }
 
   async update(id: string, dto: UpdateBudgetDto) {
+    const employee=await this.employeeRepo.findById(dto.createdBy);
+     if (!employee) {
+    throw new NotFoundException('Employee not found');}
+
+    if (employee.role !== 'MANAGER') {
+      throw new ForbiddenException('Employee is not a manager');}
     const budget: any = await this.findOne(id);
 
     if (dto.allocatedAmount !== undefined) {
@@ -92,6 +98,20 @@ export class BudgetService {
 
     return this.repository.update(id, budget);
   }
+
+   async delete(id: string) {
+  const budget = await this.repository.findById(id);
+
+  if (!budget) {
+    throw new NotFoundException('budget not found');
+  }
+
+  await this.repository.delete(id);
+
+  return {
+    message: 'budget deleted successfully',
+  };
+}
 
   // Indian financial year: 1 April -> 31 March.
   private getCurrentFinancialYear() {

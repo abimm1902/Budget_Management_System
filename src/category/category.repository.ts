@@ -31,4 +31,7 @@ export class CategoryRepository {
     await this.db.collection('categories').replace(id, data);
     return data;
   }
+  async delete(id: string) {
+  await this.db.collection('employees').remove(id);
+}
 }

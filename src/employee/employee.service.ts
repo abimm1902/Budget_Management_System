@@ -12,7 +12,6 @@ export class EmployeeService {
    
   ) {}
 
-
 async  create(dto: CreateEmployeeDto) {
     
     const now = new Date().toISOString();
@@ -38,7 +37,6 @@ async  create(dto: CreateEmployeeDto) {
   }
   
 
-
   async update(id: string, dto: UpdateEmployeeDto) {
     const employee: any = await this.findOne(id);
 
@@ -51,6 +49,19 @@ async  create(dto: CreateEmployeeDto) {
     return this.repository.update(id, employee);
   }
 
+ async delete(id: string) {
+  const employee = await this.repository.findById(id);
+
+  if (!employee) {
+    throw new NotFoundException('Employee not found');
+  }
+
+  await this.repository.delete(id);
+
+  return {
+    message: 'Employee deleted successfully',
+  };
+}
   
 
 }

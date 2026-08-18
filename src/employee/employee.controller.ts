@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
@@ -10,8 +10,8 @@ import { ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('Employee')
+
 @Controller('employees')
-// @UseGuards(RoleGuard)
 export class EmployeeController {
   constructor(private readonly service: EmployeeService) {}
 
@@ -30,13 +30,13 @@ export class EmployeeController {
     return this.service.findOne(id);
   }
 
-  
-  
-
   @Put(':id')
   update(@Param('id') id: string, @Body() dto: UpdateEmployeeDto) {
     return this.service.update(id, dto);
   }
 
-
+ @Delete(':id')
+  async delete(@Param('id') id: string) {
+  return this.service.delete(id);
+}
 }

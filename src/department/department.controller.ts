@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete,Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { DepartmentService } from './department.service';
 import { CreateDepartmentDto } from './dto/create-department.dto';
 import { UpdateDepartmentDto } from './dto/update-department.dto';
@@ -33,5 +33,9 @@ export class DepartmentController {
   @Roles(Role.ADMIN)
   update(@Param('id') id: string, @Body() dto: UpdateDepartmentDto) {
     return this.service.update(id, dto);
+  }
+   @Delete(':id')
+    async delete(@Param('id') id: string) {
+    return this.service.delete(id);
   }
 }
