@@ -2,20 +2,8 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as couchbase from 'couchbase';
 
-// Token used to inject the database connection anywhere in the app.
 export const COUCHBASE = 'COUCHBASE';
 
-/**
- * This module connects to Couchbase ONE time when the app starts, using
- * a "custom provider" with useFactory. Every module then injects the
- * same connection with @Inject(COUCHBASE) instead of connecting again.
- *
- * The object we return has simple helpers so repositories don't need to
- * know the Couchbase SDK details:
- *   - collection(name)  -> get a collection to do get/insert/replace
- *   - query(sql, params) -> run a N1QL query when a list is needed
- *   - keyspace(name)    -> the `bucket`.`scope`.`collection` string for queries
- */
 @Global()
 @Module({
   providers: [
