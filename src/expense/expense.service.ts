@@ -32,7 +32,6 @@ export class ExpenseService {
      throw new ForbiddenException('Employee is not a EMPLOYEE');
     }
 
-   
     const category = await this.categoryRepository.findById(dto.categoryId);
     if (!category) {
       throw new BadRequestException('Category not found ');
@@ -112,10 +111,9 @@ export class ExpenseService {
         );
         if (!budget) throw new BadRequestException('No active budget found');
 
-        // Deduct from the budget inside the same transaction.
+        
         await this.budgetService.useBudgetInTx(ctx, budget.budgetId, expense.amount);
 
-        // Flip the expense status inside the same transaction.
         expense.status = ExpenseStatus.APPROVED;
         expense.managerRemarks = dto.managerRemarks || 'Approved';
         expense.updatedAt = new Date().toISOString();
@@ -124,10 +122,6 @@ export class ExpenseService {
         return expense;
       });
     } catch (err) {
-      // Business-rule errors thrown above are the real reason for failure -
-      // pass them straight through so the controller returns the right
-      // status code. Anything else means Couchbase couldn't commit the
-      // transaction (e.g. after retrying on conflicts) - surface that too.
       if (
         err instanceof NotFoundException ||
         err instanceof ConflictException ||
