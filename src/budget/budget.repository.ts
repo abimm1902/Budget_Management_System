@@ -41,4 +41,25 @@ export class BudgetRepository {
   async delete(id: string) {
   await this.db.collection('budgets').remove(id);
  }
+
+
+ /** The raw collection object, needed by ctx.get/insert/replace in a transaction. */
+  getCollection() {
+    return this.db.collection('budgets');
+  }
+
+  /** Reads the budget inside an in-flight transaction. Returns null if not found. */
+  async findByIdInTx(ctx: any, id: string) {
+    try {
+      return await ctx.get(this.getCollection(), id);
+    } catch {
+      return null;
+    }
+  }
+
+  /** Writes the budget inside an in-flight transaction. `doc` is the result of findByIdInTx. */
+  async updateInTx(ctx: any, doc: any, data: any) {
+    await ctx.replace(doc, data);
+    return data;
+  }
 }

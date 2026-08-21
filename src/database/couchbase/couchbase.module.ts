@@ -31,6 +31,10 @@ export const COUCHBASE = 'COUCHBASE';
           collection: (name: string) => scope.collection(name),
           query: (sql: string, options?: any) => cluster.query(sql, options),
           keyspace: (name: string) => `\`${bucketName}\`.\`${scopeName}\`.\`${name}\``,
+
+          transaction: (fn: (ctx: any) => Promise<any>) => cluster.transactions().run(fn),
+ 
+          cluster,
         };
       },
     },

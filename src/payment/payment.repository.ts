@@ -25,4 +25,19 @@ export class PaymentRepository {
       return null;
     }
   }
+
+ 
+  /** The raw collection object, needed by ctx.get/insert/replace in a transaction. */
+  getCollection() {
+    return this.db.collection('payments');
+  }
+
+  /** Creates the payment inside an in-flight transaction. */
+  async createInTx(ctx: any, id: string, data: any) {
+    await ctx.insert(this.getCollection(), id, data);
+    return data;
+  }
+
+
+
 }

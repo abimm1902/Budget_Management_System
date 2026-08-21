@@ -11,6 +11,7 @@ import { PaymentModule } from './payment/payment.module';
 import { ReportsModule } from './reports/reports.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -22,7 +23,8 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
     ExpenseModule,
     PaymentModule,
     ReportsModule,
+   
   ],
-  providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter }],
+  providers: [{ provide: APP_FILTER, useClass: HttpExceptionFilter }, ],
 })
 export class AppModule {}

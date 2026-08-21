@@ -99,15 +99,30 @@ export class BudgetService {
     return this.repository.update(id, budget);
   }
 
+
+  async useBudgetInTx(ctx: any, id: string, amount: number) {
+    const budgetDoc = await this.repository.findByIdInTx(ctx, id);
+    if (!budgetDoc) throw new NotFoundException('Budget not found');
+
+    const budget: any = budgetDoc.content;
+    if (budget.remainingAmount < amount) {
+      throw new BadRequestException('Insufficient budget');
+    }
+
+    budget.usedAmount += amount;
+    budget.remainingAmount -= amount;
+    budget.updatedAt = new Date().toISOString();
+
+    return this.repository.updateInTx(ctx, budgetDoc, budget);
+  }
+
    async delete(id: string) {
   const budget = await this.repository.findById(id);
 
   if (!budget) {
     throw new NotFoundException('budget not found');
   }
-
   await this.repository.delete(id);
-
   return {
     message: 'budget deleted successfully',
   };

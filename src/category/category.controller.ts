@@ -2,10 +2,6 @@ import { Body, Controller, Delete,Get, Param, Patch, Post, Put, UseGuards } from
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { UpdateStatusDto } from '../common/dto/update-status.dto';
-import { RoleGuard } from '../common/guards/role.guard';
-import { Roles } from '../common/decorators/roles.decorator';
-import { Role } from '../common/enums/role.enum';
 import { ApiTags } from '@nestjs/swagger';
 
 
@@ -18,7 +14,7 @@ export class CategoryController {
   create(@Body() dto: CreateCategoryDto) {
     return this.service.create(dto);
   }
-
+  
   @Get()
   findAll() {
     return this.service.findAll();
